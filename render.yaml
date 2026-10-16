@@ -1,0 +1,22 @@
+databases:
+  - name: sistema-seguranca-db
+    plan: free
+    databaseName: sistema_seguranca
+    user: sistema_seguranca
+
+services:
+  - type: web
+    plan: free
+    name: sistema-seguranca-digital
+    runtime: python
+    buildCommand: ./build.sh
+    startCommand: gunicorn config.wsgi:application
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: sistema-seguranca-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: "0"

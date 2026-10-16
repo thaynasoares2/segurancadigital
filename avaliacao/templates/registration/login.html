@@ -1,0 +1,155 @@
+{% extends 'avaliacao/base.html' %}
+
+{% block content %}
+<style>
+    main > .alert-warning, main > .alert {
+        display: none !important;
+    }
+    .login-wrapper {
+        min-height: 70vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .user-avatar-badge {
+        width: 80px;
+        height: 80px;
+        background-color: #1e293b;
+        border: 2px solid #38bdf8;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: -40px;
+        z-index: 10;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    }
+    .user-avatar-badge svg {
+        width: 42px;
+        height: 42px;
+        fill: #38bdf8;
+    }
+    .login-card-modern {
+        background: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 16px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+        width: 100%;
+        max-width: 400px;
+        padding: 3.5rem 2rem 2rem 2rem;
+        color: #f8fafc;
+    }
+    .login-card-modern h3 {
+        text-align: center;
+        font-weight: 700;
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: #ffffff;
+    }
+    .form-control-custom {
+        background-color: #0f172a;
+        border: 1px solid #334155;
+        color: #ffffff !important;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+    }
+    .form-control-custom:focus {
+        background-color: #0f172a;
+        border-color: #38bdf8;
+        box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+    }
+    .form-control-custom::placeholder {
+        color: #64748b;
+    }
+    .form-check-input {
+        background-color: #0f172a;
+        border-color: #334155;
+        cursor: pointer;
+    }
+    .form-check-input:checked {
+        background-color: #0284c7;
+        border-color: #0284c7;
+    }
+    .form-check-label {
+        color: #94a3b8;
+        font-size: 0.9rem;
+        cursor: pointer;
+    }
+    .btn-submit-custom {
+        background-color: #0284c7 !important;
+        border-color: #0284c7 !important;
+        color: #ffffff !important;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        padding: 0.75rem;
+        border-radius: 8px;
+        width: 100%;
+        margin-top: 1rem;
+        transition: background-color 0.2s;
+    }
+    .btn-submit-custom:hover {
+        background-color: #0369a1 !important;
+    }
+    .forgot-password-link {
+        display: block;
+        text-align: center;
+        margin-top: 1.25rem;
+        color: #94a3b8;
+        font-size: 0.875rem;
+        text-decoration: none;
+    }
+    .forgot-password-link a {
+        color: #38bdf8;
+        text-decoration: none;
+        font-weight: 600;
+    }
+    .forgot-password-link a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="login-wrapper">
+    <!-- ÍCONE / AVATAR DE UTILIZADOR -->
+    <div class="user-avatar-badge">
+        <svg viewBox="0 0 24 24">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+        </svg>
+    </div>
+
+    <!-- CARTÃO DE LOGIN -->
+    <div class="login-card-modern">
+        <h3>Faça o seu login</h3>
+
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="id_username" class="form-label" style="color: #cbd5e1; font-size: 0.9rem;">Usuário *</label>
+                <input type="text" name="username" autofocus maxlength="150" class="form-control form-control-custom" required id="id_username" placeholder="Digite seu usuário">
+            </div>
+
+            <div class="mb-3">
+                <label for="id_password" class="form-label" style="color: #cbd5e1; font-size: 0.9rem;">Sua senha *</label>
+                <input type="password" name="password" class="form-control form-control-custom" required id="id_password" placeholder="Digite sua senha">
+            </div>
+
+            <!-- OPÇÃO LEMBRAR-ME -->
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="rememberMe">
+                <label class="form-check-label" for="rememberMe">
+                    Lembrar-me
+                </label>
+            </div>
+
+            <button type="submit" class="btn btn-submit-custom">ENTRAR</button>
+
+            <!-- ESQUECEU SUA SENHA -->
+            <div class="forgot-password-link">
+                Esqueceu sua senha? <a href="#" onclick="alert('Entre em contato com o administrador do sistema para redefinir sua senha.'); return false;">Clique aqui!</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

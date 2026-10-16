@@ -1,0 +1,109 @@
+{% extends 'avaliacao/base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link href="{% static 'avaliacao/dashboard.css' %}" rel="stylesheet">
+<style>
+    /* 1. Títulos e informações de versão em caixinhas/tarjas escuras elegantes (com borda azul) */
+    #resultado-completo h1,
+    #resultado-completo h2.h4,
+    .row .col-md-6 .badge,
+    .row .col-md-6 span {
+        background-color: #0f172a !important;
+        color: #38bdf8 !important;
+        border-left: 4px solid #0d6efd !important;
+        padding: 8px 14px;
+        border-radius: 6px;
+        display: inline-block;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    }
+
+    /* 2. Deixa as 6 caixas/cards do topo e os gráficos no tom escuro azulado */
+    .card,
+    .card-body,
+    .chart-container,
+    #resultado-completo .card,
+    #resultado-completo .card-body {
+        background-color: #1e293b !important;
+        border: 1px solid #334155 !important;
+        color: #f8fafc !important;
+    }
+
+    /* Força os textos internos de todas as caixas a ficarem claros e visíveis */
+    .card h2, 
+    .card h4, 
+    .card h5, 
+    .card strong, 
+    .card small,
+    .card span,
+    #resultado-completo strong {
+        color: #ffffff !important;
+    }
+
+    .card p, 
+    .text-muted,
+    p.text-muted {
+        color: #cbd5e1 !important;
+    }
+
+    /* 3. Tabelas e lista de recomendações no padrão escuro */
+    #resultado-completo .list-group-item,
+    #resultado-completo table,
+    #resultado-completo td,
+    #resultado-completo th {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) td {
+        background-color: #162032 !important;
+    }
+
+    .table th {
+        background-color: #0f172a !important;
+        color: #38bdf8 !important;
+        border-bottom: 2px solid #334155 !important;
+    }
+
+    #resultado-completo .list-group-item a {
+        color: #38bdf8 !important;
+        font-weight: 600;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% include "avaliacao/dashboard.html" %}
+
+<section id="resultado-completo" class="mt-5">
+<h1 class="h3">Resultado · {{ avaliacao.instituicao }}</h1>
+<p>Avaliação #{{ avaliacao.pk }} · matriz {{ dados.matriz_versao }} · metodologia {{ dados.metodologia_versao }}</p>
+<div class="row g-3 mb-4">
+<div class="col-md-4"><div class="card card-body"><h2 class="h5">Score geral</h2><strong>{{ dados.score_geral|default_if_none:'Sem dados aplicáveis' }}</strong>{{ dados.classe }}</div></div>
+<div class="col-md-4"><div class="card card-body"><h2 class="h5">RSDM</h2><strong>{{ dados.rsdm.valor|default_if_none:'Sem dados aplicáveis' }}</strong>{{ dados.rsdm.classe }}<p>{{ dados.rsdm.motivo }}</p></div></div>
+<div class="col-md-4"><div class="card card-body"><h2 class="h5">Lacunas nos controles associados à LGPD</h2><strong>{% if dados.gap_lgpd != None %}{{ dados.gap_lgpd }}%{% else %}Sem dados aplicáveis{% endif %}</strong><small>Limiar experimental: nível inferior a 3.</small></div></div>
+</div>
+<h2 class="h4">Scores por função NIST</h2><table class="table"><thead><tr><th>Função</th><th>Score</th></tr></thead><tbody>
+{% for funcao,score in dados.scores_funcao.items %}<tr><td>{{ funcao }}</td><td>{{ score|default_if_none:'Sem dados aplicáveis' }}</td></tr>{% endfor %}</tbody></table>
+<p>Prontidão de resposta (DE + RS): {{ dados.prontidao_resposta|default_if_none:'Sem dados aplicáveis' }}</p>
+<h2 class="h4">Recomendações priorizadas</h2><ol class="list-group list-group-numbered mb-4">
+{% for item in dados.recomendacoes %}<li class="list-group-item"><a href="#controle-{{ item.codigo }}">{{ item.codigo }}</a> · prioridade {{ item.prioridade }} · {{ item.recomendacao }}</li>{% empty %}<li class="list-group-item">Sem recomendações para controles aplicáveis.</li>{% endfor %}</ol>
+<h2 class="h4">Rastreabilidade</h2><p>Score geral = {{ dados.numerador }} / {{ dados.denominador }} (antes do arredondamento). Peso e contribuição excluem controles não aplicáveis.</p>
+<div class="table-responsive"><table class="table table-striped"><thead><tr><th>Controle</th><th>Resposta / ID</th><th>Nível</th><th>Peso</th><th>Contribuição</th><th>Observação</th></tr></thead><tbody>
+{% for item in dados.respostas %}<tr id="controle-{{ item.codigo }}"><td>{{ item.codigo }} · {{ item.codigo_csf }}<br>{{ item.controle }}</td><td>{{ item.resposta_id }}</td><td>{% if item.nao_se_aplica %}Não se aplica{% else %}{{ item.nivel }}{% endif %}</td><td>{{ item.peso }}</td><td>{{ item.contribuicao|default_if_none:'Excluído' }}</td><td>{{ item.justificativa }}</td></tr>{% endfor %}
+</tbody></table></div>
+<div class="mt-3 mb-4">
+    <a href="{% url 'inicio' %}" class="btn btn-sm btn-outline-primary">Voltar às avaliações</a>
+</div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+{{ graficos_dashboard|json_script:"dashboard-dados" }}
+<script src="{% static 'avaliacao/chart.umd.min.js' %}" defer></script>
+<script src="{% static 'avaliacao/dashboard.js' %}" defer></script>
+{% endblock %}

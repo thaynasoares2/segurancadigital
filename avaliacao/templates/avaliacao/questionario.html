@@ -1,0 +1,104 @@
+{% extends 'avaliacao/base.html' %}
+
+{% block content %}
+<style>
+    /* Card principal em tom escuro corporativo */
+    .card-corporate-dark {
+        background-color: #1e293b !important;
+        border: 1px solid #334155 !important;
+        color: #f8fafc !important;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Estilização dos campos do formulário (Inputs, Selects e Textareas) */
+    .card-corporate-dark label {
+        color: #e2e8f0 !important;
+        font-weight: 5rem;
+    }
+
+    .card-corporate-dark .form-control,
+    .card-corporate-dark .form-select {
+        background-color: #0f172a !important;
+        border: 1px solid #475569 !important;
+        color: #f8fafc !important;
+        border-radius: 6px;
+    }
+
+    .card-corporate-dark .form-control:focus,
+    .card-corporate-dark .form-select:focus {
+        background-color: #0f172a !important;
+        border-color: #3b82f6 !important;
+        color: #ffffff !important;
+        box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
+    }
+
+    /* Textos secundários de ajuda */
+    .text-muted {
+        color: #94a3b8 !important;
+    }
+
+    /* Botões das abas superiores de funções (GV, ID, PR, DE, RS, RC) */
+    .nav-tabs-custom .btn {
+        border-radius: 6px;
+        font-weight: 500;
+    }
+</style>
+
+<div class="container py-4">
+    <div class="mb-4">
+        <h2 class="fw-bold text-white">{{ avaliacao.instituicao.nome }} · Avaliação #{{ avaliacao.pk }}</h2>
+        <p class="text-muted">
+            {{ respondidos }} / {{ total }} controles respondidos · matriz {{ avaliacao.matriz }}
+        </p>
+    </div>
+
+    <!-- Navegação entre funções do NIST -->
+    <nav class="d-flex flex-wrap gap-2 mb-4 nav-tabs-custom">
+        {% for codigo, nome in funcoes %}
+            <a href="{% url 'questionario' avaliacao.pk codigo %}" class="btn {% if codigo == funcao %}btn-primary{% else %}btn-outline-primary text-white border-secondary{% endif %}">
+                {{ codigo }} · {{ nome }}
+            </a>
+        {% endfor %}
+    </nav>
+
+    <p class="text-muted mb-4">
+        Selecione o maior nível cujos critérios são atendidos. Campos vazios ficam pendentes. Salve antes de trocar de função.
+    </p>
+
+    <!-- Card de Perguntas com visual Dark Confortável -->
+    <form method="post" class="card card-corporate-dark p-4 mb-4">
+        {% csrf_token %}
+        
+        {{ form.non_field_errors }}
+
+        {% for field in form %}
+            <div class="mb-4">
+                <label for="{{ field.id_for_label }}" class="form-label d-block text-white fw-semibold mb-2">
+                    {{ field.label_tag }}
+                </label>
+                
+                {{ field }}
+
+                {% if field.help_text %}
+                    <div class="form-text text-muted mt-1" style="font-size: 0.85rem;">
+                        {{ field.help_text }}
+                    </div>
+                {% endif %}
+
+                {{ field.errors }}
+            </div>
+        {% endfor %}
+
+        <div class="pt-2">
+            <button type="submit" class="btn btn-primary fw-semibold px-4">Salvar e continuar</button>
+        </div>
+    </form>
+
+    <!-- Form de Finalizar Avaliação -->
+    <form method="post" action="{% url 'finalizar' avaliacao.pk %}" class="mt-3">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-outline-success">Finalizar Avaliação</button>
+    </form>
+</div>
+{% endblock %}

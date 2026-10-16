@@ -1,0 +1,85 @@
+.dashboard-hero{background:linear-gradient(120deg,#122c40,#176d72);color:#fff;padding:28px;border-radius:16px;display:flex;align-items:center;justify-content:space-between;gap:24px}.dashboard-hero h1{font-size:1.8rem;font-weight:700}.dashboard-eyebrow{font-size:.73rem;letter-spacing:.12em;color:#bce9e0;font-weight:700}.dashboard-hero span{font-size:.9rem;color:#d0e7ed}.dashboard-metric,.dashboard-panel{background:#fff;border:1px solid #dae3e8;border-radius:14px;padding:22px;height:100%;box-shadow:0 3px 14px #12334408}.dashboard-metric{border-top:4px solid #16847e}.dashboard-metric h2{font-size:.92rem;color:#496174}.dashboard-metric strong{display:block;font-size:2.2rem;line-height:1.4;color:#152f42;overflow-wrap:anywhere}.dashboard-metric small{font-size:1rem;margin-left:5px}.dashboard-metric p{font-size:.83rem;color:#596c7b;margin:7px 0 0}.metric-risk{border-top-color:#d99523}.chart-container{position:relative;height:300px;margin:18px 0}.chart-empty{padding:90px 10px;text-align:center;color:#596c7b}.dashboard-actions{padding-left:1.4rem;margin-bottom:0}.dashboard-actions li{padding:12px 0;border-bottom:1px solid #edf1f4}.dashboard-actions li:last-child{border:0}.dashboard-panel h2{color:#18394d}#resultado-completo{border-top:2px solid #cbdde4;padding-top:28px}html{scroll-behavior:smooth}@media(max-width:576px){.dashboard-hero{padding:20px;flex-direction:column;align-items:flex-start}.dashboard-hero h1{font-size:1.5rem}.dashboard-panel,.dashboard-metric{padding:16px}.chart-container{height:270px}.dashboard-metric strong{font-size:1.85rem}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+/* Troca a cor do card da seção Cinco prioridades para decisão para o tom azul escuro */
+section.dashboard-panel,
+.dashboard-panel {
+    background-color: #121b2d !important;
+    border: 1px solid #1e2d4a !important;
+    color: #e2e8f0 !important;
+}
+
+/* Cor do título da seção "Cinco prioridades para decisão" */
+.dashboard-panel h2,
+.dashboard-panel .h5 {
+    color: #38bdf8 !important;
+}
+
+/* Cor do texto descritivo e dos textos da lista */
+.dashboard-panel p,
+.dashboard-panel ol,
+.dashboard-panel ul,
+.dashboard-panel li {
+    color: #e2e8f0 !important;
+}
+
+/* Cor dos links/códigos de prioridade (C04, C26, C01, etc) e das badges */
+.dashboard-panel a,
+.dashboard-panel strong {
+    color: #38bdf8 !important;
+}
+
+/* 1. Fundo azul-escuro e bordas para os 3 cards do topo */
+.dashboard-metric,
+div[class*="col-"] > .dashboard-metric,
+div[class*="col-"] > .card {
+    background-color: #121b2d !important;
+    border: 1px solid #1e2d4a !important;
+    border-radius: 8px !important;
+    color: #e2e8f0 !important;
+}
+
+/* 2. Títulos dos 3 cards (Score geral, Risco para dados de menores, Lacunas LGPD) em Azul Claro */
+.dashboard-metric h2,
+.dashboard-metric h3,
+.dashboard-metric .h5,
+.dashboard-metric h4 {
+    color: #38bdf8 !important;
+}
+
+/* 3. Números e destaques principais (2.25, 59.26, 54.55%) em Branco */
+.dashboard-metric strong,
+.dashboard-metric .metric-value {
+    color: #ffffff !important;
+}
+
+/* 4. Textos secundários e legendas pequenas dentro dos 3 cards */
+.dashboard-metric p,
+.dashboard-metric span,
+.dashboard-metric small {
+    color: #94a3b8 !important;
+}
+
+/* Fundo e cores para a tabela de scores/matriz (Estilo Dark Mode) */
+.dashboard-panel .table,
+.card .table,
+table.table {
+    background-color: transparent !important;
+    color: #e2e8f0 !important;
+}
+
+/* Cabeçalho da tabela */
+.dashboard-panel .table th,
+.card .table th,
+table.table th {
+    background-color: #1a273f !important;
+    color: #38bdf8 !important;
+    border-bottom: 1px solid #1e2d4a !important;
+}
+
+/* Células e fundo das linhas da tabela */
+.dashboard-panel .table td,
+.card .table td,
+table.table td {
+    background-color: #121b2d !important;
+    color: #e2e8f0 !important;
+    border-bottom: 1px solid #1e2d4a !important;
+}

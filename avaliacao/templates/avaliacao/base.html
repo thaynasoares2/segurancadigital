@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TCC FH · Avaliação de maturidade</title>
+    <link href="{% static 'avaliacao/bootstrap.min.css' %}" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0f172a !important;
+            color: #f8fafc !important;
+            font-family: system-ui, -apple-system, sans-serif !important;
+            min-height: 100vh;
+        }
+        .navbar-corporate {
+            background-color: #1e293b !important;
+            border-bottom: 2px solid #334155 !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2) !important;
+        }
+        .navbar-corporate .navbar-brand {
+            color: #ffffff !important;
+            font-weight: 700 !important;
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-dark navbar-corporate">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'inicio' %}">TCC FH · Segurança digital</a>
+            {% if user.is_authenticated %}
+                <div class="d-flex align-items-center gap-3">
+                    <span class="text-light fw-medium">{{ user.username }}</span>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button class="btn btn-outline-light btn-sm" type="submit">Sair</button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </nav>
+    <main class="container py-4">
+        {% for message in messages %}
+            <div class="alert alert-info" role="status">{{ message }}</div>
+        {% endfor %}
+        {% block content %}{% endblock %}
+    </main>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

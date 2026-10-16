@@ -1,0 +1,86 @@
+{% extends 'avaliacao/base.html' %}
+
+{% block content %}
+<style>
+    main > .alert-warning, main > .alert {
+        display: none !important;
+    }
+    .login-container {
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .login-card {
+        background-color: #ffffff;
+        border: 1px solid #cbd5e1;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.1);
+        width: 100%;
+        max-width: 400px;
+        padding: 2.5rem;
+    }
+    .login-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    .login-header h2 {
+        color: #1e293b;
+        font-weight: 700;
+        font-size: 1.75rem;
+        margin-bottom: 0.5rem;
+    }
+    .login-header p {
+        color: #64748b;
+        font-size: 0.9rem;
+    }
+    .form-control {
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+    }
+    .form-control:focus {
+        border-color: #3b3f58;
+        box-shadow: 0 0 0 3px rgba(59, 63, 88, 0.15);
+    }
+    .btn-login {
+        background-color: #3b3f58 !important;
+        border-color: #3b3f58 !important;
+        color: #ffffff !important;
+        font-weight: 600;
+        padding: 0.75rem;
+        border-radius: 8px;
+        width: 100%;
+        margin-top: 1rem;
+    }
+    .btn-login:hover {
+        background-color: #2a2d40 !important;
+    }
+</style>
+
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <h2>Acessar o Sistema</h2>
+            <p>Digite as suas credenciais para continuar</p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="id_username" class="form-label fw-medium text-slate-700">Usuário</label>
+                <input type="text" name="username" autofocus maxlength="150" class="form-control" required id="id_username" placeholder="Digite seu usuário">
+            </div>
+
+            <div class="mb-3">
+                <label for="id_password" class="form-label fw-medium text-slate-700">Senha</label>
+                <input type="password" name="password" class="form-control" required id="id_password" placeholder="Digite sua senha">
+            </div>
+
+            <button type="submit" class="btn btn-login">Entrar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}s
